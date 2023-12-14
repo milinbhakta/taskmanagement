@@ -1,0 +1,23 @@
+# Task Management App with Keycloak Integration
+
+This application is a task management system that integrates with Keycloak to provide user authentication, role-based access control (RBAC), and fine-grained access control on data.
+
+## Features
+
+- **User Authentication:** Secure user authentication integrated with Keycloak.
+- **Role-Based Access Control (RBAC):** Role mapping via Keycloak to assign roles such as admin, manager, and employee to users.
+- **Fine-Grained Data Access Control:** Policies and access control mechanisms to control user access to specific data or resources.
+- **Task Management:** Functionality to create, edit, and delete tasks, assign tasks to users or teams, set deadlines, priorities, and track task progress.
+- **Custom Authorization Logic:** Backend includes custom logic to complement Keycloak's authorization services.
+
+## Technologies Used
+
+- **Frontend:** React, Semantic UI React
+- **Backend:** Node.js with Express.js, Postgres for data storage
+- **Authentication and Authorization:** Keycloak
+- **API Communication:** RESTful APIs
+- **Deployment:** Docker, Docker Composer
+
+## License
+
+This project is licensed under the terms of the [MIT License](LICENSE).
