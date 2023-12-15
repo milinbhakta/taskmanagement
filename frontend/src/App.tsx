@@ -1,10 +1,49 @@
-import "./App.css";
+import { Route, Routes } from 'react-router-dom';
+import Layout from './Components/Layout';
+import LoginPage from './Pages/LoginPage';
+import Dashboard from './Pages/Dashboard';
 
 function App() {
   return (
-    <>
-      <h1>Task Management</h1>
-    </>
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        {/* public routes */}
+        <Route index element={<Dashboard />} />
+        <Route path="login" element={<LoginPage />} />
+
+        {/* Protected Routes */}
+        {/* <Route element={<PersistLogin />}>
+          <Route
+            element={<RequireAuth allowedRoles={[...Object.values(ROLES)]} />}
+          >
+            <Route element={<Prefetch />}>
+              <Route path="dash" element={<DashLayout />}>
+                <Route index element={<Welcome />} />
+
+                <Route
+                  element={
+                    <RequireAuth allowedRoles={[ROLES.Manager, ROLES.Admin]} />
+                  }
+                >
+                  <Route path="users">
+                    <Route index element={<UsersList />} />
+                    <Route path=":id" element={<EditUser />} />
+                    <Route path="new" element={<NewUserForm />} />
+                  </Route>
+                </Route>
+
+                <Route path="notes">
+                  <Route index element={<NotesList />} />
+                  <Route path=":id" element={<EditNote />} />
+                  <Route path="new" element={<NewNote />} />
+                </Route>
+              </Route>
+            </Route>
+          </Route>
+        </Route> */}
+        {/* End Protected Routes */}
+      </Route>
+    </Routes>
   );
 }
 
