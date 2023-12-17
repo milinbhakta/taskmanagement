@@ -1,11 +1,14 @@
 import { Outlet } from 'react-router-dom';
 import Header from './Header';
+import { Container } from 'semantic-ui-react';
 
 const Layout = () => {
   return (
     <div>
       <Header />
-      <Outlet />
+      <Container>
+        <Outlet />
+      </Container>
     </div>
   );
 };

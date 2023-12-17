@@ -1,6 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
 import Layout from './Components/Layout';
-import LoginPage from './Pages/LoginPage';
 import Dashboard from './Pages/Dashboard';
 
 function App() {
@@ -9,7 +8,6 @@ function App() {
       <Route path="/" element={<Layout />}>
         {/* public routes */}
         <Route index element={<Dashboard />} />
-        <Route path="login" element={<LoginPage />} />
 
         {/* Protected Routes */}
         {/* <Route element={<PersistLogin />}>
