@@ -54,7 +54,6 @@ const useKeycloakState = (): [
             setKeycloak(keycloakInstance);
             setIsLoading(false);
             setUserProfile(profile);
-            console.log('User Profile:', profile);
           });
         } else {
           setIsLoading(false);
@@ -83,6 +82,8 @@ const KeycloakProvider = ({
           .updateToken()
           .then((refreshed) => {
             if (refreshed) {
+              console.log('Token refreshed');
+              console.log(keycloak.token);
               console.log('Token refreshed');
             } else {
               console.log(

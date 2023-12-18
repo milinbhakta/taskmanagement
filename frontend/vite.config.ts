@@ -5,4 +5,10 @@ import react from '@vitejs/plugin-react-swc';
 export default defineConfig({
   plugins: [react()],
   base: '/taskmanagement/',
+  server: {
+    port: 5173,
+    proxy: {
+      'ws://localhost:5173/socket.io': 'http://localhost:5173/socket.io',
+    },
+  },
 });
