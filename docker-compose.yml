@@ -1,7 +1,7 @@
 version: "4.2"
 services:
   db:
-    image: postgres:12-alpine
+    build: ./postgres
     restart: always
     environment:
       POSTGRES_PASSWORD: postgres
@@ -31,8 +31,8 @@ services:
       KEYCLOAK_PASSWORD: admin
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
-      KC_HOSTNAME_URL: http://localhost/auth
-      KC_HOSTNAME_ADMIN_URL: http://localhost/auth
+      KC_HOSTNAME_URL: http://localhost:8080/auth
+      KC_HOSTNAME_ADMIN_URL: http://localhost:8080/auth
       KC_HTTP_RELATIVE_PATH: /auth
       KC_HTTP_ENABLED: true
       KC_LOG_LEVEL: info
