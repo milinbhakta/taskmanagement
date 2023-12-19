@@ -1,6 +1,5 @@
 import express from "express";
 import pool from "../utils/db";
-import keycloak from "../utils/keycloak";
 import { getUserInfo } from "../utils/keycloakHelper";
 
 const router = express.Router();

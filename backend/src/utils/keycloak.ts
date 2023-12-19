@@ -1,4 +1,4 @@
-import Keycloak, { KeycloakConfig } from "keycloak-connect";
+import Keycloak from "keycloak-connect";
 import session from "express-session";
 
 const keycloakConfig = {
