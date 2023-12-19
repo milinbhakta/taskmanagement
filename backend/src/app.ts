@@ -2,12 +2,11 @@ import express from "express";
 import morgan from "morgan";
 import helmet from "helmet";
 import cors from "cors";
+import "dotenv/config";
 
 import * as middlewares from "./middlewares";
 import api from "./api";
-import { verifyToken } from "./utils/keycloak";
-
-require("dotenv").config();
+import keycloak from "./utils/keycloak";
 
 const app = express();
 
@@ -16,7 +15,10 @@ app.use(helmet());
 app.use(cors());
 app.use(express.json());
 
-app.use("/api/v1", verifyToken, api);
+app.use(keycloak.middleware());
+
+//TODO: custom error handler
+app.use("/api/v1", keycloak.protect(), api);
 
 app.use(middlewares.notFound);
 app.use(middlewares.errorHandler);

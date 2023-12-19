@@ -7,6 +7,7 @@ import {
 } from 'react';
 import Keycloak, { KeycloakProfile } from 'keycloak-js';
 import LoadingPage from '../Pages/LoadingPage';
+import { setAuthToken } from './AxiosInstance';
 
 interface KeycloakContextProps {
   keycloak: Keycloak | null;
@@ -26,9 +27,9 @@ export const useKeycloak = (): KeycloakContextProps => {
 };
 
 const keycloakInstance = new Keycloak({
-  clientId: 'Task-Management',
   realm: 'Task-Management',
   url: 'http://localhost/auth',
+  clientId: 'Task-Management',
 });
 
 const useKeycloakState = (): [
@@ -44,9 +45,6 @@ const useKeycloakState = (): [
     keycloakInstance
       .init({
         onLoad: 'login-required',
-        scope: 'openid profile email',
-        redirectUri: 'http://localhost/taskmanagement/',
-        checkLoginIframe: false,
       })
       .then((authenticated) => {
         if (authenticated) {
@@ -55,13 +53,17 @@ const useKeycloakState = (): [
             setIsLoading(false);
             setUserProfile(profile);
           });
+
+          if (keycloakInstance.token) {
+            setAuthToken(keycloakInstance.token);
+          }
         } else {
           setIsLoading(false);
         }
       })
       .catch((error) => {
         console.error('Keycloak initialization error:', error);
-        setIsLoading(false);
+        setIsLoading(true);
       });
   }, []);
 

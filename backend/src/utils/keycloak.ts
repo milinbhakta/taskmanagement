@@ -1,58 +1,29 @@
-import jwt from "jsonwebtoken";
-import { NextFunction, Request, Response } from "express-serve-static-core";
 import Keycloak, { KeycloakConfig } from "keycloak-connect";
+import session from "express-session";
 
-const keycloakConfig: KeycloakConfig = {
+const keycloakConfig = {
+  "auth-server-url": process.env.AUTH_SERVER_URL || "",
   realm: "Task-Management",
-  "auth-server-url": "http://localhost:8080/auth",
-  "ssl-required": "none",
+  resource: process.env.CLIENT_ID || "",
+  "ssl-required": "external",
   "confidential-port": 0,
-  resource: "Task-Management",
+  "verify-token-audience": true,
+  "use-resource-role-mappings": true,
+  "enable-cors": true,
+  "client-id": process.env.CLIENT_ID || "",
+  "bearer-only": true,
+  secret: process.env.SECRET_KEY || "",
+  "realm-public-key": process.env.REALM_PUBLIC_KEY || "",
 };
+
+const memoryStore = new session.MemoryStore();
+
 // Initialize Keycloak middleware (assuming it's already configured as in the previous example)
 const keycloak = new Keycloak(
   {
-    scope: "openid profile email",
+    store: memoryStore,
   },
   keycloakConfig
 );
-
-Keycloak.prototype.redirectToLogin = function (req: Request) {
-  var apiReqMatcher = /\/api\//i;
-  return !apiReqMatcher.test(req.originalUrl || req.url);
-};
-
-// Middleware function for token verification
-export const verifyToken = (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  const token =
-    req.headers.authorization && req.headers.authorization.split(" ")[1]; // Extract the token from the Authorization header
-
-  if (!token) {
-    return res.status(401).json({ message: "Access token is missing" });
-  }
-
-  keycloak.grantManager
-    .validateAccessToken(token as string)
-    .then((result) => {
-      if (!result) {
-        return res.status(401).json({ message: "Invalid access token" });
-      }
-
-      // Decode the token to access its content
-      const decodedToken = jwt.decode(result as string);
-
-      if (decodedToken) {
-        // Check if the user has a specific role
-        console.log(decodedToken);
-      }
-      next();
-    })
-    .catch((error) => {
-      console.error("Token validation error:", error);
-      return res.status(500).json({ message: "Internal server error" });
-    });
-};
+console.log("keycloak", keycloak);
+export default keycloak;

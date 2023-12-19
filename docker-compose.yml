@@ -18,22 +18,30 @@ services:
       retries: 5
 
   keycloak:
-    image: quay.io/keycloak/keycloak:12.0.4
-    restart: always
+    image: quay.io/keycloak/keycloak:latest
+    command: start-dev
     environment:
-      KEYCLOAK_USER: admin
-      KEYCLOAK_PASSWORD: admin
       DB_VENDOR: POSTGRES
-      DB_ADDR: db
+      DB_ADDR: postgres
       DB_DATABASE: postgres
       DB_USER: postgres
+      DB_SCHEMA: public
       DB_PASSWORD: postgres
-      KC_HOST_URL: http://localhost/auth
-      KEYCLOAK_THEME_CACHE: 'false'
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_HOSTNAME_URL: http://localhost/auth
+      KC_HOSTNAME_ADMIN_URL: http://localhost/auth
+      KC_HTTP_RELATIVE_PATH: /auth
+      KC_HTTP_ENABLED: true
+      KC_LOG_LEVEL: info
+      KC_LOG_CONSOLE_OUTPUT: json
     ports:
       - 8080:8080
     volumes:
-      - ./keycloak/themes/task-management:/opt/jboss/keycloak/themes/task-management
+      - ./keycloak/themes/task-management:/opt/keycloak/themes/task-management
+      - keycloak-data:/opt/keycloak/data/
     depends_on:
       db:
         condition: service_healthy
@@ -46,3 +54,4 @@ services:
 
 volumes:
   postgres-data:
+  keycloak-data:

@@ -1,4 +1,4 @@
-import { Dropdown, Menu, Image } from 'semantic-ui-react';
+import { Dropdown, Menu, Image, Container } from 'semantic-ui-react';
 import { useKeycloak } from '../Utils/AuthContext';
 
 export default function Header() {
@@ -45,25 +45,27 @@ export default function Header() {
 
   return (
     <Menu inverted size="huge">
-      <Menu.Item>
-        <img
-          src="/taskmanagement/taskmanagement.svg"
-          alt="logo"
-          style={{ marginRight: '1.5em' }}
-        />
-        Task Management
-      </Menu.Item>
-      <Menu.Menu position="right">
-        <Menu.Item color="grey" className="margin-right">
-          <Dropdown
-            trigger={trigger}
-            options={options}
-            pointing="top right"
-            icon={null}
-            onChange={handleDropdownChange}
+      <Container>
+        <Menu.Item>
+          <img
+            src="/taskmanagement/taskmanagement.svg"
+            alt="logo"
+            style={{ marginRight: '1.5em' }}
           />
+          Task Management
         </Menu.Item>
-      </Menu.Menu>
+        <Menu.Menu position="right">
+          <Menu.Item color="grey" className="margin-right">
+            <Dropdown
+              trigger={trigger}
+              options={options}
+              pointing="top right"
+              icon={null}
+              onChange={handleDropdownChange}
+            />
+          </Menu.Item>
+        </Menu.Menu>
+      </Container>
     </Menu>
   );
 }
