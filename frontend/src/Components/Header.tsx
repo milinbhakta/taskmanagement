@@ -4,10 +4,6 @@ import { useKeycloak } from '../Utils/AuthContext';
 export default function Header() {
   const { userProfile, keycloak } = useKeycloak();
 
-  console.log('====================================');
-  console.log('keycloak', keycloak?.token);
-  console.log('====================================');
-
   const trigger = (
     <span style={{ marginRight: '1rem' }}>
       <Image avatar src={`https://robohash.org/${userProfile?.username}`} />{' '}
