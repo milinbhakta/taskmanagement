@@ -26,13 +26,20 @@ const taskSchema = z.object({
   deadline: z.string(),
 });
 
+function mappedTask(task: Task[]): Task[] {
+  return task.map((t) => {
+    t.deadline = new Date(t.deadline).toISOString().split("T")[0];
+    return t;
+  });
+}
+
 router.get<{}, TaskResponse>("/", async (req: any, res) => {
   const userId = getUserInfo(req).sub;
   const { rows } = await pool.query<Task>(
     `SELECT * FROM TASKS WHERE assigned_to = $1 ORDER BY task_id`,
     [userId]
   );
-  res.json(rows);
+  res.json(mappedTask(rows));
 });
 
 router.post<{}, TaskResponse>("/", async (req, res) => {
@@ -44,7 +51,7 @@ router.post<{}, TaskResponse>("/", async (req, res) => {
     "INSERT INTO TASKS (task_name, description, assigned_to, status_id, deadline) VALUES ($1, $2, $3, $4, $5) RETURNING *",
     [task_name, description, assigned_to, status_id, deadline]
   );
-  res.json(rows);
+  res.json(mappedTask(rows));
 });
 
 router.get<{}, TaskResponse>("/:id", async (req: any, res) => {
@@ -53,7 +60,7 @@ router.get<{}, TaskResponse>("/:id", async (req: any, res) => {
     `SELECT * FROM TASKS WHERE task_id = $1 AND assigned_to = $2`,
     [req.params.id, userId]
   );
-  res.json(rows);
+  res.json(mappedTask(rows));
 });
 
 router.put<{ id: number }, TaskResponse>("/:id", async (req, res) => {
@@ -62,10 +69,10 @@ router.put<{ id: number }, TaskResponse>("/:id", async (req, res) => {
   const { task_name, description, assigned_to, status_id, deadline } =
     validatedTask;
   const { rows } = await pool.query<Task>(
-    "UPDATE TASKS SET task_name = $1, description = $2, assigned_to = $3, status_id = $4, deadline = $5 WHERE task_id = $6 RETURNING *",
+    "UPDATE TASKS SET task_name = $1, description = $2, assigned_to = $3, status_id = $4, deadline = $5, last_update = NOW() WHERE task_id = $6 RETURNING *",
     [task_name, description, assigned_to, status_id, deadline, req.params.id]
   );
-  res.json(rows);
+  res.json(mappedTask(rows));
 });
 
 router.delete<{ id: number }, TaskResponse>("/:id", async (req, res) => {
@@ -73,7 +80,7 @@ router.delete<{ id: number }, TaskResponse>("/:id", async (req, res) => {
     "DELETE FROM TASKS WHERE task_id = $1",
     [req.params.id]
   );
-  res.json(rows);
+  res.json(mappedTask(rows));
 });
 
 export default router;
