@@ -45,6 +45,7 @@ const useKeycloakState = (): [
     keycloakInstance
       .init({
         onLoad: 'login-required',
+        checkLoginIframe: false,
       })
       .then((authenticated) => {
         if (authenticated) {

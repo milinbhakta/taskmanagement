@@ -40,7 +40,7 @@ export default function Header() {
   };
 
   return (
-    <Menu inverted size="huge">
+    <Menu size="huge" borderless>
       <Container>
         <Menu.Item>
           <img
