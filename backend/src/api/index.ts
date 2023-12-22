@@ -2,6 +2,7 @@ import express from "express";
 
 import MessageResponse from "../interfaces/MessageResponse";
 import tasks from "./tasks";
+import status from "./status";
 
 const router = express.Router();
 
@@ -14,5 +15,6 @@ router.get<{}, MessageResponse>("/", (req, res) => {
 
 // Api Endpoints
 router.use("/tasks", tasks);
+router.use("/status", status);
 
 export default router;

@@ -8,3 +8,8 @@ export interface Task {
   created_on: string;
   last_update: string;
 }
+
+export interface Status {
+  id: number;
+  description: string;
+}

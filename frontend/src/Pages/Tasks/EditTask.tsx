@@ -5,13 +5,20 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
-import { Task } from '../../Utils/Types';
+import { Status, Task } from '../../Utils/Types';
 import axiosInstance from '../../Utils/AxiosInstance';
 import { useMessage } from '../../hooks/MessageContext';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
 
 export default function EditTask() {
   const { taskId } = useParams<{ taskId: string }>();
   const [task, setTask] = useState<Task | null>(null);
+  const [statuses, setStatuses] = useState<Status[] | []>([
+    { id: 0, description: 'Loading...' },
+  ]);
   const { showMessage } = useMessage();
 
   useEffect(() => {
@@ -22,13 +29,21 @@ export default function EditTask() {
       .catch((error) => console.error(error));
   }, [taskId]);
 
-  if (!task) {
+  useEffect(() => {
+    axiosInstance('/status')
+      .then((response) => response.data)
+      .then((data) => setStatuses(data));
+  }, []);
+
+  if (!task || !statuses) {
     return (
       <Box
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-        style={{ minHeight: '100%' }}
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100vh',
+        }}
       >
         <CircularProgress />
       </Box>
@@ -54,9 +69,25 @@ export default function EditTask() {
     }
   };
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => setTask({ ...task, [e.target.name]: e.target.value });
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const name = e.target.name as keyof typeof task;
+    const value = e.target.value;
+
+    setTask({
+      ...task,
+      [name]: value,
+    });
+  };
+
+  const handleSelectChange = (e: SelectChangeEvent) => {
+    const name = e.target.name as keyof typeof task;
+    const value = Number(e.target.value);
+
+    setTask({
+      ...task,
+      [name]: value,
+    });
+  };
 
   return (
     <Container>
@@ -66,7 +97,7 @@ export default function EditTask() {
           name="task_name"
           placeholder="Task Name"
           value={task.task_name}
-          onChange={handleChange}
+          onChange={handleInputChange}
           fullWidth
           margin="normal"
         />
@@ -75,26 +106,43 @@ export default function EditTask() {
           name="description"
           placeholder="Task Description"
           value={task.description}
-          onChange={handleChange}
+          onChange={handleInputChange}
           multiline
           fullWidth
           margin="normal"
         />
-        <TextField
-          label="Status"
-          name="status"
-          placeholder="Status"
-          value={task.status_id}
-          onChange={handleChange}
-          fullWidth
-          margin="normal"
-        />
+        <FormControl fullWidth>
+          <InputLabel id="Status">Status</InputLabel>
+          <Select
+            label="Status"
+            name="status_id"
+            value={task.status_id.toString()}
+            onChange={handleSelectChange}
+            fullWidth
+            MenuProps={{
+              anchorOrigin: {
+                vertical: 'bottom',
+                horizontal: 'left',
+              },
+              transformOrigin: {
+                vertical: 'top',
+                horizontal: 'left',
+              },
+            }}
+          >
+            {statuses.map((status) => (
+              <MenuItem key={status.id} value={status.id.toString()}>
+                {status.description}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
         <TextField
           name="deadline"
           label="Deadline"
           type="date"
           value={task.deadline}
-          onChange={handleChange}
+          onChange={handleInputChange}
           fullWidth
           margin="normal"
           InputLabelProps={{
