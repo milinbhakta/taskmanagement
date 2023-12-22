@@ -13,6 +13,7 @@ import axiosInstance from '../../Utils/AxiosInstance';
 import { Task } from '../../Utils/Types';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
+import Typography from '@mui/material/Typography';
 
 export default function ViewTasks() {
   const [loading, setLoading] = useState<Boolean>(true);
@@ -35,35 +36,47 @@ export default function ViewTasks() {
           display="flex"
           justifyContent="center"
           alignItems="center"
-          style={{ minHeight: '100%' }}
+          style={{ minHeight: '100vh' }}
         >
           <CircularProgress />
         </Box>
       ) : (
         <List>
           {tasks.map((task, index) => (
-            <div key={task.task_id}>
-              <ListItem>
-                <ListItemText
-                  primary={task.task_name}
-                  secondary={task.description}
-                />
-                <ListItemSecondaryAction>
-                  <IconButton
-                    sx={{ mr: 1 }}
-                    edge="end"
-                    component={Link}
-                    to={`/tasks/${task.task_id}`}
-                  >
-                    <EditIcon />
-                  </IconButton>
-                  <IconButton edge="end">
-                    <DeleteIcon />
-                  </IconButton>
-                </ListItemSecondaryAction>
-              </ListItem>
-              {index < tasks.length - 1 && <Divider />}{' '}
-            </div>
+            <ListItem divider key={task.task_id}>
+              <ListItemText
+                primary={task.task_name}
+                secondary={task.description}
+              />
+              <ListItemSecondaryAction
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  gap: '1rem',
+                }}
+              >
+                <Typography variant="body2" color="textSecondary">
+                  Created On: {''}
+                  {new Date(task.created_on).toLocaleDateString('en-CA')}
+                </Typography>
+                <Typography variant="body2" color="textSecondary">
+                  Deadline: {task.deadline}
+                </Typography>
+                <IconButton
+                  sx={{ mr: 1 }}
+                  edge="end"
+                  component={Link}
+                  to={`/tasks/${task.task_id}`}
+                >
+                  <EditIcon />
+                </IconButton>
+                <IconButton edge="end">
+                  <DeleteIcon />
+                </IconButton>
+              </ListItemSecondaryAction>
+            </ListItem>
           ))}
         </List>
       )}
