@@ -8,8 +8,8 @@ import { ThemeProviderWrapper } from './hooks/ThemeContext.tsx';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <KeycloakProvider>
-    <CssBaseline />
     <ThemeProviderWrapper>
+      <CssBaseline />
       <MessageProvider>
         <BrowserRouter basename="/taskmanagement">
           <Routes>

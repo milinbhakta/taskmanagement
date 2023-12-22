@@ -1,7 +1,6 @@
 import { createContext, useState, useEffect, useContext } from 'react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { blue, pink } from '@mui/material/colors';
 
 export const ThemeContext = createContext({
   toggleDarkMode: () => {},
@@ -17,18 +16,57 @@ export const ThemeProviderWrapper = ({
 }) => {
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
   const [darkMode, setDarkMode] = useState(prefersDarkMode);
-  const [themeMode, setThemeMode] = useState(
+  const [themeMode, setThemeMode] = useState<'light' | 'dark'>(
     prefersDarkMode ? 'dark' : 'light'
   );
 
   const theme = createTheme({
     palette: {
-      mode: darkMode ? 'dark' : 'light',
+      mode: themeMode,
+      background: {
+        default: themeMode === 'dark' ? '#101923' : '',
+        paper: themeMode === 'dark' ? '#1b2d3e' : '',
+      },
       primary: {
-        main: darkMode ? blue[200] : blue[700], // light blue in dark mode, dark blue in light mode
+        main: '#005a8f',
       },
       secondary: {
-        main: darkMode ? pink[200] : pink[700], // light pink in dark mode, dark pink in light mode
+        main: '#4dacff',
+      },
+      error: {
+        main: '#ffb302',
+      },
+      warning: {
+        main: '#fce83a',
+      },
+      info: {
+        main: '#2dccff',
+      },
+      success: {
+        main: '#56f000',
+      },
+    },
+    components: {
+      MuiButton: {
+        styleOverrides: {
+          root: {
+            borderRadius: 8,
+          },
+        },
+      },
+    },
+    typography: {
+      h1: {
+        fontSize: '2.125rem',
+        fontWeight: 400,
+      },
+      h2: {
+        fontSize: '1.5rem',
+        fontWeight: 400,
+      },
+      h3: {
+        fontSize: '1.25rem',
+        fontWeight: 500,
       },
     },
   });
