@@ -1,12 +1,12 @@
 import { Outlet } from 'react-router-dom';
 import Header from './Header';
-import { Container } from 'semantic-ui-react';
+import { Container } from '@mui/material';
 
 const Layout = () => {
   return (
     <div>
       <Header />
-      <Container fluid>
+      <Container maxWidth="xl">
         <Outlet />
       </Container>
     </div>
