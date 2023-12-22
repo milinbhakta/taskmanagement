@@ -24,8 +24,8 @@ export const ThemeProviderWrapper = ({
     palette: {
       mode: themeMode,
       background: {
-        default: themeMode === 'dark' ? '#101923' : '',
-        paper: themeMode === 'dark' ? '#1b2d3e' : '',
+        default: themeMode === 'dark' ? '#101923' : '#f5f5f5',
+        paper: themeMode === 'dark' ? '#1b2d3e' : '#fff',
       },
       primary: {
         main: '#005a8f',
