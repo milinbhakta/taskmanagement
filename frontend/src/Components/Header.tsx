@@ -54,7 +54,7 @@ export default function Header() {
             alignItems: 'center',
           }}
         >
-          <Typography variant="h5" noWrap component="a">
+          <Typography variant="h5" noWrap sx={{ fontWeight: '600' }}>
             <Link to="/" style={{ textDecoration: 'none', color: 'white' }}>
               Task Management
             </Link>
