@@ -1,67 +1,95 @@
-import { Dropdown, Menu, Image, Container } from 'semantic-ui-react';
-import { useKeycloak } from '../Utils/AuthContext';
+import AppBar from '@mui/material/AppBar';
+import Container from '@mui/material/Container';
+import { useKeycloak } from '../hooks/KeycloakContext';
+import {
+  Toolbar,
+  Typography,
+  Box,
+  IconButton,
+  Tooltip,
+  Avatar,
+  Menu,
+  MenuItem,
+} from '@mui/material';
+import { useState } from 'react';
 
 export default function Header() {
   const { userProfile, keycloak } = useKeycloak();
 
-  const trigger = (
-    <span style={{ marginRight: '1rem' }}>
-      <Image avatar src={`https://robohash.org/${userProfile?.username}`} />{' '}
-      {userProfile?.username}
-    </span>
-  );
+  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
-  const options = [
-    { key: 'user', text: 'Account', icon: 'user', value: 'user' },
-    { key: 'settings', text: 'Settings', icon: 'settings', value: 'settings' },
-    { key: 'sign-out', text: 'Sign Out', icon: 'sign out', value: 'sign-out' },
-  ];
+  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElUser(event.currentTarget);
+  };
 
-  const handleDropdownChange = (e: any, data: any) => {
-    switch (data.value) {
-      case 'sign-out':
+  const handleCloseUserMenu = (setting: string) => {
+    switch (setting) {
+      case 'Logout':
         keycloak?.logout();
         break;
-      case 'user':
+      case 'Profile':
         console.log('====================================');
-        console.log('user');
+        console.log('Profile');
         console.log('====================================');
-        // window.location.href = '/account';
-        break;
-      case 'settings':
-        console.log('====================================');
-        console.log('settings');
-        console.log('====================================');
-        // window.location.href = '/settings';
         break;
       default:
         break;
     }
+    setAnchorElUser(null);
   };
 
+  const settings = ['Profile', 'Logout'];
+
   return (
-    <Menu size="huge" borderless>
-      <Container>
-        <Menu.Item>
-          <img
-            src="/taskmanagement/taskmanagement.svg"
-            alt="logo"
-            style={{ marginRight: '1.5em' }}
-          />
-          Task Management
-        </Menu.Item>
-        <Menu.Menu position="right">
-          <Menu.Item color="grey" className="margin-right">
-            <Dropdown
-              trigger={trigger}
-              options={options}
-              pointing="top right"
-              icon={null}
-              onChange={handleDropdownChange}
-            />
-          </Menu.Item>
-        </Menu.Menu>
+    <AppBar position="static">
+      <Container maxWidth="xl">
+        <Toolbar
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
+        >
+          <Typography variant="h5" noWrap>
+            Task Management
+          </Typography>
+          <Box>
+            <Tooltip title="Open settings">
+              <IconButton onClick={handleOpenUserMenu}>
+                <Avatar
+                  alt={userProfile?.username}
+                  src={`https://robohash.org/${userProfile?.username}`}
+                />
+              </IconButton>
+            </Tooltip>
+            <Menu
+              sx={{ mt: '45px' }}
+              id="menu-appbar"
+              anchorEl={anchorElUser}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              open={Boolean(anchorElUser)}
+              onClose={handleCloseUserMenu}
+            >
+              {settings.map((setting) => (
+                <MenuItem
+                  key={setting}
+                  onClick={() => handleCloseUserMenu(setting)}
+                >
+                  <Typography textAlign="center">{setting}</Typography>
+                </MenuItem>
+              ))}
+            </Menu>
+          </Box>
+        </Toolbar>
       </Container>
-    </Menu>
+    </AppBar>
   );
 }

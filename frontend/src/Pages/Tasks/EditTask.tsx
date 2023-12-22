@@ -3,10 +3,12 @@ import { useParams } from 'react-router-dom';
 import { Container, Form, Button, Loader, TextArea } from 'semantic-ui-react';
 import { Task } from '../../Utils/Types';
 import axiosInstance from '../../Utils/AxiosInstance';
+import { useMessage } from '../../hooks/MessageContext';
 
 export default function EditTask() {
   const { taskId } = useParams<{ taskId: string }>();
   const [task, setTask] = useState<Task | null>(null);
+  const { showMessage } = useMessage();
 
   useEffect(() => {
     axiosInstance(`/tasks/${taskId}`)
@@ -30,23 +32,16 @@ export default function EditTask() {
 
       if (response.status === 200) {
         // Handle successful update here, e.g. redirect to task list
-        console.log('====================================');
-        console.log('Task updated successfully', task);
-        console.log('====================================');
+        showMessage('Task updated successfully', 'success');
       } else {
-        // Handle error here, e.g. show error message
-        console.error('====================================');
-        console.error('Error updating task');
-        console.error('====================================');
+        showMessage('Error updating task', 'error');
       }
     } catch (error) {
       console.error(error);
-      // Handle error here, e.g. show error message
-      console.error('====================================');
-      console.error('Error updating task', error);
-      console.error('====================================');
+      showMessage('Error updating task', 'error');
     }
   };
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     { name, value }: { name: string; value: string }

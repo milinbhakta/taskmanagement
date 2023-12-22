@@ -7,7 +7,7 @@ import {
 } from 'react';
 import Keycloak, { KeycloakProfile } from 'keycloak-js';
 import LoadingPage from '../Pages/LoadingPage';
-import { setAuthToken } from './AxiosInstance';
+import { setAuthToken } from '../Utils/AxiosInstance';
 
 interface KeycloakContextProps {
   keycloak: Keycloak | null;

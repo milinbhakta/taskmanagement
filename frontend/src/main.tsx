@@ -1,16 +1,18 @@
 import ReactDOM from 'react-dom/client';
 import App from './App.tsx';
 import 'semantic-ui-css/semantic.min.css';
-import './index.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import KeycloakProvider from './Utils/AuthContext.tsx';
+import KeycloakProvider from './hooks/KeycloakContext.tsx';
+import { MessageProvider } from './hooks/MessageContext.tsx';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <KeycloakProvider>
-    <BrowserRouter basename="/taskmanagement">
-      <Routes>
-        <Route path="/*" element={<App />} />
-      </Routes>
-    </BrowserRouter>
+    <MessageProvider>
+      <BrowserRouter basename="/taskmanagement">
+        <Routes>
+          <Route path="/*" element={<App />} />
+        </Routes>
+      </BrowserRouter>
+    </MessageProvider>
   </KeycloakProvider>
 );
