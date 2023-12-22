@@ -12,10 +12,13 @@ import {
   MenuItem,
 } from '@mui/material';
 import { useState } from 'react';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import { useThemeContext } from '../hooks/ThemeContext';
 
 export default function Header() {
   const { userProfile, keycloak } = useKeycloak();
-
+  const { themeMode, toggleDarkMode } = useThemeContext();
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -54,6 +57,9 @@ export default function Header() {
             Task Management
           </Typography>
           <Box>
+            <IconButton onClick={toggleDarkMode} sx={{ color: 'white' }}>
+              {themeMode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+            </IconButton>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu}>
                 <Avatar
