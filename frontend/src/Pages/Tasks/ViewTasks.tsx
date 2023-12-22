@@ -1,8 +1,18 @@
-import { Button, Container, Icon, List, Loader } from 'semantic-ui-react';
-import axiosInstance from '../../Utils/AxiosInstance';
-import { useEffect, useState } from 'react';
-import { Task } from '../../Utils/Types';
 import { Link } from 'react-router-dom';
+import Container from '@mui/material/Container';
+import CircularProgress from '@mui/material/CircularProgress';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
+import IconButton from '@mui/material/IconButton';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { useState, useEffect } from 'react';
+import axiosInstance from '../../Utils/AxiosInstance';
+import { Task } from '../../Utils/Types';
+import Box from '@mui/material/Box';
+import Divider from '@mui/material/Divider';
 
 export default function ViewTasks() {
   const [loading, setLoading] = useState<Boolean>(true);
@@ -17,31 +27,43 @@ export default function ViewTasks() {
       }, 1000);
     });
   }, []);
+
   return (
-    <Container>
+    <Container maxWidth="xl">
       {loading ? (
-        <Loader active inline indeterminate>
-          getting your tasks
-        </Loader>
+        <Box
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          style={{ minHeight: '100vh' }}
+        >
+          <CircularProgress />
+        </Box>
       ) : (
-        <List divided className="middle" animated size="big">
-          {tasks.map((task) => (
-            <List.Item key={task.task_id}>
-              <List.Content floated="right">
-                <Button.Group icon size="large">
-                  <Link to={`/tasks/${task.task_id}`}>
-                    <Button>
-                      <Icon name="edit" color="grey" />
-                    </Button>
-                  </Link>
-                  <Button>
-                    <Icon name="trash" color="grey" />
-                  </Button>
-                </Button.Group>
-              </List.Content>
-              <List.Header>{task.task_name}</List.Header>
-              <List.Content>{task.description}</List.Content>
-            </List.Item>
+        <List>
+          {tasks.map((task, index) => (
+            <div key={task.task_id}>
+              <ListItem>
+                <ListItemText
+                  primary={task.task_name}
+                  secondary={task.description}
+                />
+                <ListItemSecondaryAction>
+                  <IconButton
+                    sx={{ mr: 1 }}
+                    edge="end"
+                    component={Link}
+                    to={`/tasks/${task.task_id}`}
+                  >
+                    <EditIcon />
+                  </IconButton>
+                  <IconButton edge="end">
+                    <DeleteIcon />
+                  </IconButton>
+                </ListItemSecondaryAction>
+              </ListItem>
+              {index < tasks.length - 1 && <Divider />}{' '}
+            </div>
           ))}
         </List>
       )}
