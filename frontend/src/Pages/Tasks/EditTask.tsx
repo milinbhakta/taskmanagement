@@ -1,6 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Container, Form, Button, Loader, TextArea } from 'semantic-ui-react';
+import Container from '@mui/material/Container';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 import { Task } from '../../Utils/Types';
 import axiosInstance from '../../Utils/AxiosInstance';
 import { useMessage } from '../../hooks/MessageContext';
@@ -19,7 +23,16 @@ export default function EditTask() {
   }, [taskId]);
 
   if (!task) {
-    return <Loader active>Loading...</Loader>;
+    return (
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        style={{ minHeight: '100vh' }}
+      >
+        <CircularProgress />
+      </Box>
+    );
   }
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -31,7 +44,6 @@ export default function EditTask() {
       });
 
       if (response.status === 200) {
-        // Handle successful update here, e.g. redirect to task list
         showMessage('Task updated successfully', 'success');
       } else {
         showMessage('Error updating task', 'error');
@@ -43,47 +55,56 @@ export default function EditTask() {
   };
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    { name, value }: { name: string; value: string }
-  ) => setTask({ ...task, [name]: value });
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => setTask({ ...task, [e.target.name]: e.target.value });
 
   return (
     <Container>
-      <Form onSubmit={handleSubmit}>
-        <Form.Field
-          control={Form.Input}
+      <form onSubmit={handleSubmit}>
+        <TextField
           label="Task Name"
           name="task_name"
           placeholder="Task Name"
           value={task.task_name}
           onChange={handleChange}
+          fullWidth
+          margin="normal"
         />
-        <Form.Field
-          control={TextArea}
+        <TextField
           label="Description"
           name="description"
           placeholder="Task Description"
           value={task.description}
           onChange={handleChange}
+          multiline
+          fullWidth
+          margin="normal"
         />
-        <Form.Field
-          control={Form.Input}
+        <TextField
           label="Status"
           name="status"
           placeholder="Status"
           value={task.status_id}
           onChange={handleChange}
+          fullWidth
+          margin="normal"
         />
-        <Form.Field
-          control={Form.Input}
+        <TextField
           name="deadline"
           label="Deadline"
           type="date"
           value={task.deadline}
           onChange={handleChange}
+          fullWidth
+          margin="normal"
+          InputLabelProps={{
+            shrink: true,
+          }}
         />
-        <Button type="submit">Submit</Button>
-      </Form>
+        <Button type="submit" variant="contained" color="primary">
+          Submit
+        </Button>
+      </form>
     </Container>
   );
 }
