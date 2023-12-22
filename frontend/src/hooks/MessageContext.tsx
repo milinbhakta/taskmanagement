@@ -1,6 +1,7 @@
+import Alert from '@mui/material/Alert';
+import Snackbar from '@mui/material/Snackbar';
 import { createContext, useContext } from 'react';
 import { useState } from 'react';
-import { Message } from 'semantic-ui-react';
 
 interface MessageContextProps {
   showMessage: (content: string, messageType: MessageType) => void;
@@ -35,17 +36,15 @@ export function MessageProvider({ children }: MessageProviderProps) {
   return (
     <MessageContext.Provider value={{ showMessage }}>
       {children}
-      {visible && (
-        <Message
-          compact
-          floating
-          content={content}
-          positive={type === 'success'}
-          negative={type === 'error'}
-          info={type === 'info'}
-          className="bottom-center-message"
-        />
-      )}
+      <Snackbar
+        open={visible}
+        autoHideDuration={3000}
+        onClose={() => setVisible(false)}
+      >
+        <Alert severity={type} onClose={() => setVisible(false)}>
+          {content}
+        </Alert>
+      </Snackbar>
     </MessageContext.Provider>
   );
 }
