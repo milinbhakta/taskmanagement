@@ -15,6 +15,7 @@ import { useState } from 'react';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import { useThemeContext } from '../hooks/ThemeContext';
+import { Link } from 'react-router-dom';
 
 export default function Header() {
   const { userProfile, keycloak } = useKeycloak();
@@ -53,8 +54,10 @@ export default function Header() {
             alignItems: 'center',
           }}
         >
-          <Typography variant="h5" noWrap>
-            Task Management
+          <Typography variant="h5" noWrap component="a">
+            <Link to="/" style={{ textDecoration: 'none', color: 'white' }}>
+              Task Management
+            </Link>
           </Typography>
           <Box>
             <IconButton onClick={toggleDarkMode} sx={{ color: 'white' }}>

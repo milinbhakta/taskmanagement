@@ -12,13 +12,12 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
+import { Stack } from '@mui/material';
 
 export default function EditTask() {
   const { taskId } = useParams<{ taskId: string }>();
   const [task, setTask] = useState<Task | null>(null);
-  const [statuses, setStatuses] = useState<Status[] | []>([
-    { id: 0, description: 'Loading...' },
-  ]);
+  const [statuses, setStatuses] = useState<Status[] | null>(null);
   const { showMessage } = useMessage();
 
   useEffect(() => {
@@ -42,7 +41,7 @@ export default function EditTask() {
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          height: '100vh',
+          minHeight: '800px',
         }}
       >
         <CircularProgress />
@@ -90,68 +89,77 @@ export default function EditTask() {
   };
 
   return (
-    <Container>
+    <Container sx={{ marginTop: 3 }}>
       <form onSubmit={handleSubmit}>
-        <TextField
-          label="Task Name"
-          name="task_name"
-          placeholder="Task Name"
-          value={task.task_name}
-          onChange={handleInputChange}
-          fullWidth
-          margin="normal"
-        />
-        <TextField
-          label="Description"
-          name="description"
-          placeholder="Task Description"
-          value={task.description}
-          onChange={handleInputChange}
-          multiline
-          fullWidth
-          margin="normal"
-        />
-        <FormControl fullWidth>
-          <InputLabel id="Status">Status</InputLabel>
-          <Select
-            label="Status"
-            name="status_id"
-            value={task.status_id.toString()}
-            onChange={handleSelectChange}
+        <Stack display="flex" direction="column" spacing={3}>
+          <TextField
+            label="Task Name"
+            name="task_name"
+            placeholder="Task Name"
+            value={task.task_name}
+            onChange={handleInputChange}
             fullWidth
-            MenuProps={{
-              anchorOrigin: {
-                vertical: 'bottom',
-                horizontal: 'left',
-              },
-              transformOrigin: {
-                vertical: 'top',
-                horizontal: 'left',
-              },
+            margin="normal"
+          />
+          <TextField
+            label="Description"
+            name="description"
+            placeholder="Task Description"
+            value={task.description}
+            onChange={handleInputChange}
+            multiline
+            fullWidth
+            margin="normal"
+          />
+          <FormControl fullWidth>
+            <InputLabel id="Status">Status</InputLabel>
+            <Select
+              label="Status"
+              name="status_id"
+              value={task.status_id.toString()}
+              onChange={handleSelectChange}
+              fullWidth
+              MenuProps={{
+                anchorOrigin: {
+                  vertical: 'bottom',
+                  horizontal: 'left',
+                },
+                transformOrigin: {
+                  vertical: 'top',
+                  horizontal: 'left',
+                },
+              }}
+            >
+              {statuses.map((status) => (
+                <MenuItem key={status.id} value={status.id.toString()}>
+                  {status.description}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <TextField
+            name="deadline"
+            label="Deadline"
+            type="date"
+            value={task.deadline}
+            onChange={handleInputChange}
+            fullWidth
+            margin="normal"
+            InputLabelProps={{
+              shrink: true,
             }}
-          >
-            {statuses.map((status) => (
-              <MenuItem key={status.id} value={status.id.toString()}>
-                {status.description}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-        <TextField
-          name="deadline"
-          label="Deadline"
-          type="date"
-          value={task.deadline}
-          onChange={handleInputChange}
-          fullWidth
-          margin="normal"
-          InputLabelProps={{
-            shrink: true,
-          }}
-        />
-        <Button type="submit" variant="contained" color="primary">
-          Submit
-        </Button>
+          />
+          <Box display="flex" justifyContent="flex-end">
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              size="medium"
+            >
+              Submit
+            </Button>
+          </Box>
+        </Stack>
       </form>
     </Container>
   );

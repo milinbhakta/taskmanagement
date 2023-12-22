@@ -12,7 +12,6 @@ import { useState, useEffect } from 'react';
 import axiosInstance from '../../Utils/AxiosInstance';
 import { Task } from '../../Utils/Types';
 import Box from '@mui/material/Box';
-import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
 
 export default function ViewTasks() {
@@ -36,13 +35,13 @@ export default function ViewTasks() {
           display="flex"
           justifyContent="center"
           alignItems="center"
-          style={{ minHeight: '100vh' }}
+          style={{ minHeight: '800px' }}
         >
           <CircularProgress />
         </Box>
       ) : (
         <List>
-          {tasks.map((task, index) => (
+          {tasks.map((task) => (
             <ListItem divider key={task.task_id}>
               <ListItemText
                 primary={task.task_name}

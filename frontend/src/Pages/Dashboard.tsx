@@ -1,9 +1,7 @@
-import { Link } from 'react-router-dom';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
+import Stack from '@mui/material/Stack';
+import { Link } from 'react-router-dom';
 
 const Dashboard = () => {
   const content = (
@@ -12,18 +10,26 @@ const Dashboard = () => {
       <Typography variant="h6">
         Welcome to Dashboard! {new Date().toString()}
       </Typography>
-      {/* Link to view Tasks */}
-      <List>
-        <ListItem>
-          <ListItemText
-            primary={
-              <Typography variant="h6">
-                <Link to="/tasks">View your tasks</Link>
-              </Typography>
-            }
-          />
-        </ListItem>
-      </List>
+      <Stack
+        direction="column"
+        justifyContent="space-evenly"
+        alignItems="flex-start"
+        spacing={2}
+        sx={{ mt: 2 }}
+      >
+        <Link
+          to="/tasks"
+          style={{ color: 'white', cursor: 'pointer', textDecoration: 'none' }}
+        >
+          &#8226; View Tasks
+        </Link>
+        <Link
+          to="/tasks/create"
+          style={{ color: 'white', cursor: 'pointer', textDecoration: 'none' }}
+        >
+          &#8226; Create Task
+        </Link>
+      </Stack>
     </Container>
   );
   return content;
