@@ -11,8 +11,8 @@
             <#nested "title">
         </title>
         <link rel="shortcut icon" href="${url.resourcesPath}/img/taskmanagement.svg" />
-        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.7/components/icon.min.css">
-        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.7/semantic.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> <!-- Add this line -->
         <#if properties.styles?has_content>
             <#list properties.styles?split(',') as style>
                 <link href="${url.resourcesPath}/${style}" rel="stylesheet" />
@@ -22,34 +22,27 @@
 
     <body class="template">
         <img src="${url.resourcesPath}/img/bg.webp" class="img-bg" />
-        <div class="glassmorphism">
-            <div id="kcContainerClass">
-                <div id="kc-container-wrapper">
-                    <div id="kc-content">
-                        <div id="kc-content-wrapper">
-                            <div id="kc-form">
-                                <h2 class="ui centered teal image header">
-                                    <img src="${url.resourcesPath}/img/taskmanagement.svg" class="image">
-                                    <div class="content">
-                                        <#nested "title">
-                                    </div>
-                                </h2>
-                                <div id="kc-form-wrapper">
-                                    <#nested "form">
-                                </div>
-                            </div>
-                            <#if displayMessage && message?has_content>
-                                <div class="ui error message">
-                                    ${message.summary}
-                                </div>
-                            </#if>
-                        </div>
+        <div class="container wrapperC">
+            <div id="kc-form" class="card borderR">
+                <div class="card-content">
+                    <span class="card-title">
+                        <img src="${url.resourcesPath}/img/taskmanagement.svg" class="responsive-img">
+                        <span class="content">
+                            <#nested "title">
+                        </span>
+                    </span>
+                    <div id="kc-form-wrapper">
+                        <#nested "form">
                     </div>
                 </div>
+                <#if displayMessage && message?has_content>
+                    <div class="card-panel red lighten-2">
+                        ${message.summary}
+                    </div>
+                </#if>
             </div>
         </div>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.7/semantic.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     </body>
 
     </html>

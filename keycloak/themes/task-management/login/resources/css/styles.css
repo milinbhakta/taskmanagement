@@ -1,165 +1,90 @@
-/*************************
-      Floating label
-**************************/
-.ui.input.floating-label {
+@import url("https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i");
+
+body {
+  font-family: "Roboto", sans-serif;
+}
+
+#kc-form {
+  width: 50%;
+  height: auto;
+  padding: 2rem;
+  box-shadow: 0 5px 6px -3px rgba(0, 0, 0, 0.2),
+    0 9px 12px 1px rgba(0, 0, 0, 0.14), 0 3px 16px 2px rgba(0, 0, 0, 0.12);
+}
+
+#kc-form-login #kc-form-options {
+  margin-top: 15px;
+}
+
+#kc-login {
+  float: right;
+}
+
+#kc-error-message p {
+  margin: 0;
+}
+
+.template {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.template .language-picker {
   position: relative;
-  margin-bottom: 1rem;
+  margin: 0 auto;
+  margin-top: 30px;
+  margin-bottom: 20px;
+  width: 195px;
 }
 
-.ui.input.floating-label > input,
-.ui.input.floating-label > label {
-  height: 3.125rem;
-  padding: 0.75rem;
+.template .language-picker .language-icon {
+  float: left;
+  color: rgba(0, 0, 0, 0.54);
 }
 
-.ui.input.floating-label > label {
-  text-align: left;
-  position: absolute;
-  top: 0;
-  left: 0;
+.template .language-picker .mdc-select {
+  float: right;
+  margin-top: -25px;
+}
+
+.template .language-picker .mdc-select option {
+  font-weight: normal;
   display: block;
-  width: 100%;
-  margin-bottom: 0;
-  /* Override default `<label>` margin */
-  line-height: 1.5;
-  color: #495057;
-  pointer-events: none;
-  cursor: text;
-  /* Match the input under the label */
-  border: 1px solid transparent;
-  border-radius: 0.25rem;
-  transition: all 0.1s ease-in-out;
-}
-
-.ui.input.left.icon.floating-label > label {
-  left: 26.99px;
-}
-
-.ui.input.floating-label input::-webkit-input-placeholder {
-  color: transparent;
-}
-
-.ui.input.floating-label input:-ms-input-placeholder {
-  color: transparent;
-}
-
-.ui.input.floating-label input::-ms-input-placeholder {
-  color: transparent;
-}
-
-.ui.input.floating-label input::-moz-placeholder {
-  color: transparent;
-}
-
-.ui.input.floating-label input::placeholder {
-  color: transparent;
-}
-
-.field.floating-label input:focus::-webkit-input-placeholder {
-  color: transparent;
-}
-
-.field.floating-label input:focus:-moz-placeholder {
-  color: transparent;
-}
-
-.field.floating-label input:focus::-moz-placeholder {
-  color: transparent;
-}
-
-.field.floating-label input:focus:-ms-input-placeholder {
-  color: transparent;
-}
-
-.ui.input.floating-label input:not(:placeholder-shown) {
-  padding-top: 1.25rem;
-  padding-bottom: 0.25rem;
-}
-
-.ui.input.floating-label input:not(:placeholder-shown) ~ label,
-.ui.input.floating-label input:-webkit-autofill ~ label {
-  padding-top: 0.25rem;
-  padding-bottom: 0.25rem;
-  font-size: 12px;
-  color: #777;
-}
-
-.ui.input.floating-label::-webkit-input-placeholder {
-  color: #6c757d;
-  opacity: 1;
-}
-
-.ui.input.floating-label::-moz-placeholder {
-  color: #6c757d;
-  opacity: 1;
-}
-
-.ui.input.floating-label:-ms-input-placeholder {
-  color: #6c757d;
-  opacity: 1;
-}
-
-.ui.input.floating-label::-ms-input-placeholder {
-  color: #6c757d;
-  opacity: 1;
-}
-
-.ui.input.floating-label::placeholder {
-  color: #6c757d;
-  opacity: 1;
-}
-
-/* Fallback for Edge
--------------------------------------------------- */
-@supports (-ms-ime-align: auto) {
-  .ui.input.floating-label > label {
-    display: none;
-  }
-
-  .ui.input.floating-label input::-ms-input-placeholder {
-    color: #777;
-  }
-}
-
-/* Fallback for IE
--------------------------------------------------- */
-@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
-  .ui.input.floating-label > label {
-    display: none;
-  }
-
-  .ui.input.floating-label input:-ms-input-placeholder {
-    color: #777;
-  }
-}
-
-body > .grid {
-  height: 100%;
-}
-
-#kcContainerClass {
-  max-width: 450px;
-  position: absolute;
-  top: 25%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 100%;
+  white-space: pre;
+  min-height: 1.2em;
+  padding: 0px 2px 1px;
 }
 
 .img-bg {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
   position: absolute;
   top: 0;
   left: 0;
+  width: 100%;
+  height: 100%;
+  filter: blur(8px);
+  z-index: -1;
 }
 
-.glassmorphism {
-  background: rgba(255, 255, 255, 0.1);
-  /* Adjust transparency here */
-  backdrop-filter: blur(15px);
-  height: 100%;
-  width: 100%;
-  /* Adjust shadow as needed */
+.card-title {
+  display: flex !important;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.responsive-img {
+  width: 72px;
+  height: 72px;
+}
+
+.borderR {
+  border-radius: 15px;
+}
+
+.wrapperC {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
