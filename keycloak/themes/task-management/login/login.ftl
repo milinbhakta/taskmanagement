@@ -21,7 +21,7 @@
                     ${msg("password")}
                   </label>
                 </div>
-                <button class="btn waves-effect waves-light borderR" name="login" id="kc-login" type="submit">
+                <button class="btn waves-effect waves-light borderR btn-bg" name="login" id="kc-login" type="submit">
                   ${msg("doLogIn")}
                 </button>
               </div>

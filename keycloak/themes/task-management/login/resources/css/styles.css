@@ -31,32 +31,6 @@ body {
   height: 100vh;
 }
 
-.template .language-picker {
-  position: relative;
-  margin: 0 auto;
-  margin-top: 30px;
-  margin-bottom: 20px;
-  width: 195px;
-}
-
-.template .language-picker .language-icon {
-  float: left;
-  color: rgba(0, 0, 0, 0.54);
-}
-
-.template .language-picker .mdc-select {
-  float: right;
-  margin-top: -25px;
-}
-
-.template .language-picker .mdc-select option {
-  font-weight: normal;
-  display: block;
-  white-space: pre;
-  min-height: 1.2em;
-  padding: 0px 2px 1px;
-}
-
 .img-bg {
   position: absolute;
   top: 0;
@@ -72,6 +46,7 @@ body {
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  color: #005a8f;
 }
 
 .responsive-img {
@@ -87,4 +62,39 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.btn-bg {
+  background-color: #005a8f;
+}
+.btn-bg:hover {
+  background-color: #005a8f;
+}
+
+/* input and label */
+/* label underline focus color */
+/* label color */
+.input-field label {
+  color: #000;
+}
+/* label focus color */
+.input-field input[type="text"]:focus + label {
+  color: #005a8f !important;
+}
+.input-field input[type="password"]:focus + label {
+  color: #005a8f !important;
+}
+/* label underline focus color */
+.input-field input[type="text"]:focus {
+  border-bottom: 1px solid #005a8f !important;
+  box-shadow: 0 1px 0 0 #005a8f;
+}
+.input-field input[type="password"]:focus {
+  border-bottom: 1px solid #005a8f !important;
+  box-shadow: 0 1px 0 0 #005a8f;
+}
+
+/* icon prefix focus color */
+.input-field .prefix.active {
+  color: #005a8f;
 }
