@@ -1,21 +1,16 @@
-import { Loader } from 'semantic-ui-react';
-import 'semantic-ui-css/semantic.min.css';
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 
 const LoadingPage = () => {
   return (
-    <div
-      className="loading-page"
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '100vh',
-      }}
+    <Box
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      height="100vh"
     >
-      <Loader active inline="centered" size="massive">
-        Loading...
-      </Loader>
-    </div>
+      <CircularProgress size="large" />
+    </Box>
   );
 };
 
