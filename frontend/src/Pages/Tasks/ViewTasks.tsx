@@ -10,7 +10,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useState, useEffect } from 'react';
 import axiosInstance from '../../Utils/AxiosInstance';
-import { Task } from '../../Utils/Types';
+import { StatusColors, Task } from '../../Utils/Types';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
@@ -28,6 +28,9 @@ export default function ViewTasks() {
     });
   }, []);
 
+  const getBorderColor = (statusId: number) => {
+    return StatusColors[statusId];
+  };
   return (
     <Container maxWidth="xl">
       {loading ? (
@@ -42,7 +45,14 @@ export default function ViewTasks() {
       ) : (
         <List>
           {tasks.map((task) => (
-            <ListItem divider key={task.task_id}>
+            <ListItem
+              divider
+              key={task.task_id}
+              sx={{
+                borderTop: `5px solid ${getBorderColor(task.status_id)}`,
+                marginBottom: '1rem',
+              }}
+            >
               <ListItemText
                 primary={task.task_name}
                 secondary={task.description}
