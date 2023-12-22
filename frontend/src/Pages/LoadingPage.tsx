@@ -7,7 +7,7 @@ const LoadingPage = () => {
       display="flex"
       justifyContent="center"
       alignItems="center"
-      height="100vh"
+      height="100%"
     >
       <CircularProgress size="large" />
     </Box>
