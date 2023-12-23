@@ -27,9 +27,9 @@ export const useKeycloak = (): KeycloakContextProps => {
 };
 
 const keycloakInstance = new Keycloak({
-  realm: 'Task-Management',
-  url: 'http://localhost/auth',
-  clientId: 'Task-Management',
+  realm: import.meta.env.VITE_REALM,
+  url: import.meta.env.VITE_AUTH_URL,
+  clientId: import.meta.env.VITE_CLIENT_ID,
 });
 
 const useKeycloakState = (): [
@@ -46,7 +46,8 @@ const useKeycloakState = (): [
       .init({
         onLoad: 'login-required',
         checkLoginIframe: false,
-        silentCheckSsoFallback: true, 
+        silentCheckSsoFallback: true,
+        redirectUri: import.meta.env.VITE_REDIRECT_URI,
       })
       .then((authenticated) => {
         if (authenticated) {

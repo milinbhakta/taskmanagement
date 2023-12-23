@@ -67,7 +67,9 @@ export default function Header() {
               <IconButton onClick={handleOpenUserMenu}>
                 <Avatar
                   alt={userProfile?.username}
-                  src={`https://robohash.org/${userProfile?.username}`}
+                  src={`${
+                    import.meta.env.VITE_AVATAR_BASE_URL
+                  }${userProfile?.username}`}
                 />
               </IconButton>
             </Tooltip>
