@@ -17,7 +17,6 @@ app.use(express.json());
 
 app.use(keycloak.middleware());
 
-//TODO: custom error handler
 app.use("/api/v1", keycloak.protect(), api);
 
 app.use(middlewares.notFound);

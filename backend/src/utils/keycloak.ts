@@ -25,5 +25,12 @@ const keycloak = new Keycloak(
   },
   keycloakConfig
 );
+
+keycloak.accessDenied = (req: any, res: any) => {
+  res.status(403).json({
+    message: "Access Denied",
+  });
+};
+
 console.log("keycloak", keycloak);
 export default keycloak;

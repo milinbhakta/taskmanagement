@@ -1,7 +1,8 @@
 import express from "express";
 import pool from "../utils/db";
-import { getUserInfo } from "../utils/keycloakHelper";
+import { getUserInfo, hasAdminOrManagerRole } from "../utils/keycloakHelper";
 import { z } from "zod";
+import keycloak from "../utils/keycloak";
 
 const router = express.Router();
 
@@ -75,12 +76,16 @@ router.put<{ id: number }, TaskResponse>("/:id", async (req, res) => {
   res.json(mappedTask(rows));
 });
 
-router.delete<{ id: number }, TaskResponse>("/:id", async (req, res) => {
-  const { rows } = await pool.query<Task>(
-    "DELETE FROM TASKS WHERE task_id = $1",
-    [req.params.id]
-  );
-  res.json(mappedTask(rows));
-});
+router.delete<{ id: string }, TaskResponse>(
+  "/:id",
+  keycloak.protect(hasAdminOrManagerRole),
+  async (req, res) => {
+    const { rows } = await pool.query<Task>(
+      "DELETE FROM TASKS WHERE task_id = $1",
+      [Number(req.params.id)]
+    );
+    res.json(mappedTask(rows));
+  }
+);
 
 export default router;
