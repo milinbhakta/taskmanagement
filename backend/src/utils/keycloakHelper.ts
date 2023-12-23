@@ -1,4 +1,3 @@
-import { log } from "console";
 import { Token } from "../interfaces/KeycloakTypes";
 
 export function getUserInfo(req: any): Token {
@@ -7,7 +6,6 @@ export function getUserInfo(req: any): Token {
 
 export function filterStatusDataByRole(data: any[], token: Token): any[] {
   const { roles } = token;
-  log(roles);
   if (roles.includes("backend.admin")) {
     return data;
   } else if (roles.includes("backend.employee")) {
