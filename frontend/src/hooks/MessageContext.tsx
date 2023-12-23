@@ -40,6 +40,7 @@ export function MessageProvider({ children }: MessageProviderProps) {
         open={visible}
         autoHideDuration={3000}
         onClose={() => setVisible(false)}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
       >
         <Alert severity={type} onClose={() => setVisible(false)}>
           {content}

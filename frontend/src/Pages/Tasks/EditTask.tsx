@@ -62,9 +62,9 @@ export default function EditTask() {
       } else {
         showMessage('Error updating task', 'error');
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
-      showMessage('Error updating task', 'error');
+      showMessage(`${error.response.data.message}`, 'error');
     }
   };
 

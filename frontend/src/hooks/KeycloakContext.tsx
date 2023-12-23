@@ -46,6 +46,7 @@ const useKeycloakState = (): [
       .init({
         onLoad: 'login-required',
         checkLoginIframe: false,
+        silentCheckSsoFallback: true, 
       })
       .then((authenticated) => {
         if (authenticated) {

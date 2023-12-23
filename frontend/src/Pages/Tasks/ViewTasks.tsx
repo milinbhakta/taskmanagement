@@ -13,10 +13,23 @@ import axiosInstance from '../../Utils/AxiosInstance';
 import { StatusColors, Task } from '../../Utils/Types';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import Dialog from '@mui/material/Dialog';
+import {
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  Button,
+} from '@mui/material';
+import { useMessage } from '../../hooks/MessageContext';
+import { AxiosError } from 'axios';
 
 export default function ViewTasks() {
   const [loading, setLoading] = useState<Boolean>(true);
   const [tasks, setTasks] = useState<Task[]>([]);
+  const [confirmDialogOpen, setConfirmDialogOpenOpen] = useState(false);
+  const [taskIdToDelete, setTaskIdToDelete] = useState<number | null>(null);
+  const { showMessage } = useMessage();
 
   useEffect(() => {
     axiosInstance.get('/tasks').then((res) => {
@@ -27,6 +40,32 @@ export default function ViewTasks() {
       }, 1000);
     });
   }, []);
+
+  const handleClickOpen = (task_id: number) => {
+    setTaskIdToDelete(task_id);
+    setConfirmDialogOpenOpen(true);
+  };
+
+  const handleClose = () => {
+    setConfirmDialogOpenOpen(false);
+  };
+
+  const handleAgree = async () => {
+    if (taskIdToDelete !== null) {
+      try {
+        const response = await axiosInstance.delete(`/tasks/${taskIdToDelete}`);
+
+        if (response.status === 200) {
+          setTasks(tasks.filter((task) => task.task_id !== taskIdToDelete));
+          showMessage('Task deleted successfully', 'success');
+        }
+      } catch (error: any) {
+        showMessage(`${error.response.data.message}`, 'error');
+      }
+    }
+
+    handleClose();
+  };
 
   const getBorderColor = (statusId: number) => {
     return StatusColors[statusId];
@@ -81,7 +120,10 @@ export default function ViewTasks() {
                 >
                   <EditIcon />
                 </IconButton>
-                <IconButton edge="end">
+                <IconButton
+                  edge="end"
+                  onClick={() => handleClickOpen(task.task_id)}
+                >
                   <DeleteIcon />
                 </IconButton>
               </ListItemSecondaryAction>
@@ -89,6 +131,22 @@ export default function ViewTasks() {
           ))}
         </List>
       )}
+      <Dialog open={confirmDialogOpen} onClose={handleClose}>
+        <DialogTitle>{'Delete Task'}</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Are you sure you want to delete this task?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="secondary">
+            Disagree
+          </Button>
+          <Button onClick={handleAgree} color="secondary" autoFocus>
+            Agree
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Container>
   );
 }

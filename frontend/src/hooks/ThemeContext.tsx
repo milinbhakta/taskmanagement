@@ -33,18 +33,6 @@ export const ThemeProviderWrapper = ({
       secondary: {
         main: '#4dacff',
       },
-      error: {
-        main: '#ffb302',
-      },
-      warning: {
-        main: '#fce83a',
-      },
-      info: {
-        main: '#2dccff',
-      },
-      success: {
-        main: '#56f000',
-      },
     },
     components: {
       MuiButton: {
