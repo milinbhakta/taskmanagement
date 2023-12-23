@@ -13,12 +13,14 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import { Stack } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 export default function EditTask() {
   const { taskId } = useParams<{ taskId: string }>();
   const [task, setTask] = useState<Task | null>(null);
   const [statuses, setStatuses] = useState<Status[] | null>(null);
   const { showMessage } = useMessage();
+  const navigate = useNavigate();
 
   useEffect(() => {
     axiosInstance(`/tasks/${taskId}`)
@@ -59,6 +61,7 @@ export default function EditTask() {
 
       if (response.status === 200) {
         showMessage('Task updated successfully', 'success');
+        navigate(-1); // navigate back to the previous page
       } else {
         showMessage('Error updating task', 'error');
       }
