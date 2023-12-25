@@ -22,7 +22,6 @@ import {
   Button,
 } from '@mui/material';
 import { useMessage } from '../../hooks/MessageContext';
-import { AxiosError } from 'axios';
 
 export default function ViewTasks() {
   const [loading, setLoading] = useState<Boolean>(true);

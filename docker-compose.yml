@@ -21,22 +21,22 @@ services:
     image: quay.io/keycloak/keycloak:latest
     command: start-dev
     environment:
-      DB_VENDOR: POSTGRES
-      DB_ADDR: postgres
-      DB_DATABASE: postgres
-      DB_USER: postgres
-      DB_SCHEMA: public
-      DB_PASSWORD: postgres
-      KEYCLOAK_USER: admin
-      KEYCLOAK_PASSWORD: admin
-      KEYCLOAK_ADMIN: admin
-      KEYCLOAK_ADMIN_PASSWORD: admin
-      KC_HOSTNAME_URL: http://localhost/auth
-      KC_HOSTNAME_ADMIN_URL: http://localhost/auth
-      KC_HTTP_RELATIVE_PATH: /auth
-      KC_HTTP_ENABLED: true
-      KC_LOG_LEVEL: info
-      KC_LOG_CONSOLE_OUTPUT: json
+      DB_VENDOR: ${DB_VENDOR}
+      DB_ADDR: ${DB_ADDR}
+      DB_DATABASE: ${DB_DATABASE}
+      DB_USER: ${DB_USER}
+      DB_SCHEMA: ${DB_SCHEMA}
+      DB_PASSWORD: ${DB_PASSWORD}
+      KEYCLOAK_USER: ${KEYCLOAK_USER}
+      KEYCLOAK_PASSWORD: ${KEYCLOAK_PASSWORD}
+      KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN}
+      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
+      KC_HOSTNAME_URL: ${KC_HOSTNAME_URL}
+      KC_HOSTNAME_ADMIN_URL: ${KC_HOSTNAME_ADMIN_URL}
+      KC_HTTP_RELATIVE_PATH: ${KC_HTTP_RELATIVE_PATH}
+      KC_HTTP_ENABLED: ${KC_HTTP_ENABLED}
+      KC_LOG_LEVEL: ${KC_LOG_LEVEL}
+      KC_LOG_CONSOLE_OUTPUT: ${KC_LOG_CONSOLE_OUTPUT}
     ports:
       - 8080:8080
     volumes:
@@ -48,6 +48,31 @@ services:
         restart: true
     healthcheck:
       test: ["CMD", "curl", "-f", "http://keycloak:8080/auth/realms/master"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build: ./backend
+    restart: always
+    environment:
+      REALM_PUBLIC_KEY: ${REALM_PUBLIC_KEY}
+      SECRET_KEY: ${SECRET_KEY}
+      CLIENT_ID: ${CLIENT_ID}
+      AUTH_SERVER_URL: ${AUTH_SERVER_URL}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_HOST: ${DB_HOST}
+      DB_DATABASE: ${DB_DATABASE}
+      DB_PORT: ${DB_PORT}
+    ports:
+      - 5000:5000
+    depends_on:
+      db:
+        condition: service_healthy
+        restart: true
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://backend:5000/api/v1/"]
       interval: 5s
       timeout: 5s
       retries: 5
