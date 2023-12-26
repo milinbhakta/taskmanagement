@@ -11,7 +11,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <ThemeProviderWrapper>
       <CssBaseline />
       <MessageProvider>
-        <BrowserRouter basename="/taskmanagement">
+        <BrowserRouter basename="/">
           <Routes>
             <Route path="/*" element={<App />} />
           </Routes>
