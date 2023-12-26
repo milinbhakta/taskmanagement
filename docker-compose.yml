@@ -8,7 +8,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_DB: postgres
     ports:
-      - 5432:5432
+      - ${POSTGRES_PORT}:5432
     volumes:
       - postgres-data:/var/lib/postgresql/data
     healthcheck:
@@ -27,6 +27,7 @@ services:
       DB_USER: ${DB_USER}
       DB_SCHEMA: ${DB_SCHEMA}
       DB_PASSWORD: ${DB_PASSWORD}
+      DB_PORT: ${DB_PORT}
       KEYCLOAK_USER: ${KEYCLOAK_USER}
       KEYCLOAK_PASSWORD: ${KEYCLOAK_PASSWORD}
       KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN}
@@ -73,6 +74,27 @@ services:
         restart: true
     healthcheck:
       test: ["CMD", "curl", "-f", "http://backend:5000/api/v1/"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        VITE_REDIRECT_URI: ${VITE_REDIRECT_URI}
+        VITE_AUTH_URL: ${VITE_AUTH_URL}
+        VITE_CLIENT_ID: ${VITE_CLIENT_ID}
+        VITE_REALM: ${VITE_REALM}
+        VITE_API_BASE_URL: ${VITE_API_BASE_URL}
+        VITE_AVATAR_BASE_URL: ${VITE_AVATAR_BASE_URL}
+    restart: always
+    ports:
+      - 5173:5173
+    depends_on:
+      - backend
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://frontend:5173/taskmanagement/"]
       interval: 5s
       timeout: 5s
       retries: 5

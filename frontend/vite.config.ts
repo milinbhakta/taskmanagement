@@ -11,4 +11,10 @@ export default defineConfig({
       'ws://localhost:5173/socket.io': 'http://localhost:5173/socket.io',
     },
   },
+  preview: {
+    port: 5173,
+    proxy: {
+      'ws://localhost:5173/socket.io': 'http://localhost:5173/socket.io',
+    },
+  },
 });
