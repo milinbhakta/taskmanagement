@@ -103,6 +103,7 @@ export default function EditTask() {
             onChange={handleInputChange}
             fullWidth
             margin="normal"
+            required
           />
           <TextField
             label="Description"
@@ -113,6 +114,7 @@ export default function EditTask() {
             multiline
             fullWidth
             margin="normal"
+            required
           />
           <FormControl fullWidth>
             <InputLabel id="Status">Status</InputLabel>
@@ -122,6 +124,7 @@ export default function EditTask() {
               value={task.status_id.toString()}
               onChange={handleSelectChange}
               fullWidth
+              required
               MenuProps={{
                 anchorOrigin: {
                   vertical: 'bottom',
@@ -147,6 +150,7 @@ export default function EditTask() {
             value={task.deadline}
             onChange={handleInputChange}
             fullWidth
+            required
             margin="normal"
             InputLabelProps={{
               shrink: true,

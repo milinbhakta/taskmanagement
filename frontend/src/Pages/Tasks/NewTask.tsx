@@ -18,6 +18,7 @@ import { useEffect, useState } from 'react';
 import { Task, Status } from '../../Utils/Types';
 import { useMessage } from '../../hooks/MessageContext';
 import { useKeycloak } from '../../hooks/KeycloakContext';
+import { useNavigate } from 'react-router-dom';
 
 export default function NewTask() {
   const { keycloak } = useKeycloak();
@@ -33,6 +34,7 @@ export default function NewTask() {
   });
   const [statuses, setStatuses] = useState<Status[] | null>(null);
   const { showMessage } = useMessage();
+  const navigate = useNavigate();
 
   useEffect(() => {
     axiosInstance('/status')
@@ -76,6 +78,8 @@ export default function NewTask() {
           last_update: '',
           task_id: 0,
         });
+        // Navigate to the task list
+        navigate('/tasks');
       } else {
         showMessage('Error updating task', 'error');
       }
@@ -117,6 +121,7 @@ export default function NewTask() {
             onChange={handleInputChange}
             fullWidth
             margin="normal"
+            required
           />
           <TextField
             label="Description"
@@ -127,6 +132,7 @@ export default function NewTask() {
             multiline
             fullWidth
             margin="normal"
+            required
           />
           <FormControl fullWidth>
             <InputLabel id="Status">Status</InputLabel>
@@ -136,6 +142,7 @@ export default function NewTask() {
               value={task.status_id.toString()}
               onChange={handleSelectChange}
               fullWidth
+              required
               MenuProps={{
                 anchorOrigin: {
                   vertical: 'bottom',
@@ -161,6 +168,7 @@ export default function NewTask() {
             value={task.deadline}
             onChange={handleInputChange}
             fullWidth
+            required
             margin="normal"
             InputLabelProps={{
               shrink: true,
