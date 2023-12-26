@@ -11,15 +11,19 @@ type Status = {
 
 type StatusResponse = Status[];
 
-router.get<{}, StatusResponse>("/", async (req: any, res) => {
-  const { rows } = await pool.query(
-    `SELECT
-        STATUS_ID AS "id",
-        STATUS_NAME AS "description"
-    FROM STATUS
-    ORDER BY STATUS_NAME;`
-  );
-  res.json(filterStatusDataByRole(rows, getUserInfo(req)));
+router.get<{}, StatusResponse>("/", async (req: any, res, next) => {
+  try {
+    const { rows } = await pool.query(
+      `SELECT
+          STATUS_ID AS "id",
+          STATUS_NAME AS "description"
+      FROM STATUS
+      ORDER BY STATUS_NAME;`
+    );
+    res.json(filterStatusDataByRole(rows, getUserInfo(req)));
+  } catch (error) {
+    next(error);
+  }
 });
 
 export default router;

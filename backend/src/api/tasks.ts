@@ -34,57 +34,77 @@ function mappedTask(task: Task[]): Task[] {
   });
 }
 
-router.get<{}, TaskResponse>("/", async (req: any, res) => {
-  const userId = getUserInfo(req).sub;
-  const { rows } = await pool.query<Task>(
-    `SELECT * FROM TASKS WHERE assigned_to = $1 ORDER BY task_id`,
-    [userId]
-  );
-  res.json(mappedTask(rows));
+router.get<{}, TaskResponse>("/", async (req: any, res, next) => {
+  try {
+    const userId = getUserInfo(req).sub;
+    const { rows } = await pool.query<Task>(
+      `SELECT * FROM TASKS WHERE assigned_to = $1 ORDER BY task_id`,
+      [userId]
+    );
+    res.json(mappedTask(rows));
+  } catch (error) {
+    next(error);
+  }
 });
 
-router.post<{}, TaskResponse>("/", async (req, res) => {
-  // validate the request body
-  const validatedTask = taskSchema.parse(req.body);
-  const { task_name, description, assigned_to, status_id, deadline } =
-    validatedTask;
-  const { rows } = await pool.query<Task>(
-    "INSERT INTO TASKS (task_name, description, assigned_to, status_id, deadline) VALUES ($1, $2, $3, $4, $5) RETURNING *",
-    [task_name, description, assigned_to, status_id, deadline]
-  );
-  res.json(mappedTask(rows));
+router.post<{}, TaskResponse>("/", async (req, res, next) => {
+  try {
+    // validate the request body
+    const validatedTask = taskSchema.parse(req.body);
+    const { task_name, description, assigned_to, status_id, deadline } =
+      validatedTask;
+    const { rows } = await pool.query<Task>(
+      "INSERT INTO TASKS (task_name, description, assigned_to, status_id, deadline) VALUES ($1, $2, $3, $4, $5) RETURNING *",
+      [task_name, description, assigned_to, status_id, deadline]
+    );
+    res.json(mappedTask(rows));
+  } catch (error) {
+    next(error);
+  }
 });
 
-router.get<{}, TaskResponse>("/:id", async (req: any, res) => {
-  const userId = getUserInfo(req).sub;
-  const { rows } = await pool.query<Task>(
-    `SELECT * FROM TASKS WHERE task_id = $1 AND assigned_to = $2`,
-    [req.params.id, userId]
-  );
-  res.json(mappedTask(rows));
+router.get<{}, TaskResponse>("/:id", async (req: any, res, next) => {
+  try {
+    const userId = getUserInfo(req).sub;
+    const { rows } = await pool.query<Task>(
+      `SELECT * FROM TASKS WHERE task_id = $1 AND assigned_to = $2`,
+      [req.params.id, userId]
+    );
+    res.json(mappedTask(rows));
+  } catch (error) {
+    next(error);
+  }
 });
 
-router.put<{ id: number }, TaskResponse>("/:id", async (req, res) => {
-  // validate the request body
-  const validatedTask = taskSchema.parse(req.body);
-  const { task_name, description, assigned_to, status_id, deadline } =
-    validatedTask;
-  const { rows } = await pool.query<Task>(
-    "UPDATE TASKS SET task_name = $1, description = $2, assigned_to = $3, status_id = $4, deadline = $5, last_update = NOW() WHERE task_id = $6 RETURNING *",
-    [task_name, description, assigned_to, status_id, deadline, req.params.id]
-  );
-  res.json(mappedTask(rows));
+router.put<{ id: number }, TaskResponse>("/:id", async (req, res, next) => {
+  try {
+    // validate the request body
+    const validatedTask = taskSchema.parse(req.body);
+    const { task_name, description, assigned_to, status_id, deadline } =
+      validatedTask;
+    const { rows } = await pool.query<Task>(
+      "UPDATE TASKS SET task_name = $1, description = $2, assigned_to = $3, status_id = $4, deadline = $5, last_update = NOW() WHERE task_id = $6 RETURNING *",
+      [task_name, description, assigned_to, status_id, deadline, req.params.id]
+    );
+    res.json(mappedTask(rows));
+  } catch (error) {
+    next(error);
+  }
 });
 
 router.delete<{ id: string }, TaskResponse>(
   "/:id",
   keycloak.protect(hasAdminOrManagerRole),
-  async (req, res) => {
-    const { rows } = await pool.query<Task>(
-      "DELETE FROM TASKS WHERE task_id = $1",
-      [Number(req.params.id)]
-    );
-    res.json(mappedTask(rows));
+  async (req, res, next) => {
+    try {
+      const { rows } = await pool.query<Task>(
+        "DELETE FROM TASKS WHERE task_id = $1",
+        [Number(req.params.id)]
+      );
+      res.json(mappedTask(rows));
+    } catch (error) {
+      next(error);
+    }
   }
 );
 
