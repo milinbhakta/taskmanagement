@@ -1,6 +1,3 @@
--- Change the password for the 'postgres' user
-ALTER USER POSTGRES WITH PASSWORD 'postgres';
-
 -- Drop the table 'Status' if it exists
 DROP TABLE IF EXISTS STATUS;
 
