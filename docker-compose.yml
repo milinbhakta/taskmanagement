@@ -42,7 +42,7 @@ services:
       - 8080:8080
     volumes:
       - ./keycloak/themes/task-management:/opt/keycloak/themes/task-management
-      - keycloak-data:/opt/keycloak/data/
+      - ./keycloak/data:/opt/keycloak/data/
     depends_on:
       db:
         condition: service_healthy
@@ -101,4 +101,3 @@ services:
 
 volumes:
   postgres-data:
-  keycloak-data:

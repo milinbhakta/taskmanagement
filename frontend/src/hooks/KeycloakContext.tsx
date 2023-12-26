@@ -47,7 +47,7 @@ const useKeycloakState = (): [
         onLoad: 'login-required',
         checkLoginIframe: false,
         silentCheckSsoFallback: true,
-        redirectUri: import.meta.env.VITE_REDIRECT_URI,
+        // redirectUri: import.meta.env.VITE_REDIRECT_URI,
       })
       .then((authenticated) => {
         if (authenticated) {
