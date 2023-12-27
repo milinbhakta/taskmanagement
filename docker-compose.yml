@@ -58,7 +58,7 @@ services:
         condition: service_healthy
         restart: true
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://keycloak:8080/auth/realms/master"]
+      test: timeout 10s bash -c ':> /dev/tcp/localhost/8080'
       interval: 5s
       timeout: 5s
       retries: 5
