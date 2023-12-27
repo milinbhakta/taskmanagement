@@ -85,7 +85,7 @@ services:
         condition: service_healthy
         restart: true
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://backend:5000/api/v1/"]
+      test: ["CMD", "curl", "-f", "http://backend:5000/healthCheck"]
       interval: 5s
       timeout: 5s
       retries: 5

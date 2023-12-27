@@ -15,6 +15,13 @@ app.use(helmet());
 app.use(cors());
 app.use(express.json());
 
+// Health check endpoint
+app.get("/healthCheck", (req, res) => {
+  res.json({
+    message: "OK",
+  });
+});
+
 app.use(keycloak.middleware());
 
 app.use("/api/v1", keycloak.protect(), api);

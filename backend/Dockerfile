@@ -5,6 +5,8 @@ WORKDIR /app
 COPY package.json ./
 COPY yarn.lock ./
 
+RUN apk update && apk add curl
+
 RUN yarn install --frozen-lockfile
 
 COPY . .
