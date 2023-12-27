@@ -36,6 +36,7 @@ COPY package.json ./
 COPY yarn.lock ./
 COPY vite.config.ts ./
 
+RUN apk update && apk add curl
 RUN yarn install --production
 RUN yarn add vite typescript -g
 
