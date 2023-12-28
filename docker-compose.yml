@@ -1,6 +1,6 @@
 version: "4.2"
 services:
-  db:
+  task-management-database:
     build: ./postgres
     restart: always
     environment:
@@ -19,7 +19,7 @@ services:
           "-d",
           "${POSTGRES_DB}",
           "-h",
-          "db",
+          "task-management-database",
         ]
       interval: 5s
       timeout: 5s
@@ -27,7 +27,7 @@ services:
     networks:
       - task-management
 
-  keycloak:
+  task-management-keycloak:
     image: quay.io/keycloak/keycloak:latest
     command: start
     environment:
@@ -54,7 +54,7 @@ services:
       - ./keycloak/themes/task-management:/opt/keycloak/themes/task-management
       - keycloak-data:/opt/keycloak/data/
     depends_on:
-      db:
+      task-management-database:
         condition: service_healthy
         restart: true
     healthcheck:
@@ -65,7 +65,7 @@ services:
     networks:
       - task-management
 
-  backend:
+  task-management-backend:
     build: ./backend
     restart: always
     environment:
@@ -81,18 +81,18 @@ services:
     ports:
       - 5000:5000
     depends_on:
-      db:
+      task-management-database:
         condition: service_healthy
         restart: true
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://backend:5000/healthCheck"]
+      test: ["CMD", "curl", "-f", "http://task-management-backend:5000/healthCheck"]
       interval: 5s
       timeout: 5s
       retries: 5
     networks:
       - task-management
 
-  frontend:
+  task-management-frontend:
     build:
       context: ./frontend
       args:
@@ -106,9 +106,9 @@ services:
     ports:
       - 5173:5173
     depends_on:
-      - backend
+      - task-management-backend
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://frontend:5173/taskmanagement/"]
+      test: ["CMD", "curl", "-f", "http://task-management-frontend:5173/taskmanagement/"]
       interval: 5s
       timeout: 5s
       retries: 5
