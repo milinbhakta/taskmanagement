@@ -18,6 +18,13 @@ This application is a task management system that integrates with Keycloak to pr
 - **API Communication:** RESTful APIs
 - **Deployment:** Docker, Docker Composer
 
+## How to Run the Project
+
+1. Ensure Docker and Docker Compose are installed on your machine.
+2. Clone the repository and navigate to the project directory.
+3. Run `docker-compose up` to start the services. This will build the Docker images if they haven't been built already.
+4. The frontend will be accessible at `http://localhost:3000`, and the backend will be accessible at `http://localhost:5000`.
+
 ## License
 
 This project is licensed under the terms of the [MIT License](LICENSE).
