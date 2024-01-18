@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
 
-const Dashboard = () => {
+function Dashboard() {
   const theme = useTheme();
 
   const content = (
@@ -43,5 +43,5 @@ const Dashboard = () => {
     </Container>
   );
   return content;
-};
+}
 export default Dashboard;

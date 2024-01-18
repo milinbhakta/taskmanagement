@@ -1,7 +1,7 @@
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 
-const LoadingPage = () => {
+function LoadingPage() {
   return (
     <Box
       display="flex"
@@ -12,6 +12,6 @@ const LoadingPage = () => {
       <CircularProgress size="large" />
     </Box>
   );
-};
+}
 
 export default LoadingPage;
