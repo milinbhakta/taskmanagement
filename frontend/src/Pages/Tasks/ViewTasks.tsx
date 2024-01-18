@@ -9,8 +9,6 @@ import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useState, useEffect } from 'react';
-import axiosInstance from '../../Utils/AxiosInstance';
-import { StatusColors, Task } from '../../Utils/Types';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Dialog from '@mui/material/Dialog';
@@ -21,10 +19,12 @@ import {
   DialogActions,
   Button,
 } from '@mui/material';
+import { StatusColors, Task } from '../../Utils/Types';
+import axiosInstance from '../../Utils/AxiosInstance';
 import { useMessage } from '../../hooks/MessageContext';
 
 export default function ViewTasks() {
-  const [loading, setLoading] = useState<Boolean>(true);
+  const [loading, setLoading] = useState<boolean>(true);
   const [tasks, setTasks] = useState<Task[]>([]);
   const [confirmDialogOpen, setConfirmDialogOpenOpen] = useState(false);
   const [taskIdToDelete, setTaskIdToDelete] = useState<number | null>(null);
@@ -105,7 +105,7 @@ export default function ViewTasks() {
                 }}
               >
                 <Typography variant="body2" color="textSecondary">
-                  Created On: {''}
+                  Created On:
                   {new Date(task.created_on).toLocaleDateString('en-CA')}
                 </Typography>
                 <Typography variant="body2" color="textSecondary">
@@ -131,7 +131,7 @@ export default function ViewTasks() {
         </List>
       )}
       <Dialog open={confirmDialogOpen} onClose={handleClose}>
-        <DialogTitle>{'Delete Task'}</DialogTitle>
+        <DialogTitle>Delete Task</DialogTitle>
         <DialogContent>
           <DialogContentText>
             Are you sure you want to delete this task?

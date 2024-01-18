@@ -13,12 +13,12 @@ import {
   SelectChangeEvent,
 } from '@mui/material';
 import Container from '@mui/material/Container';
-import axiosInstance from '../../Utils/AxiosInstance';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axiosInstance from '../../Utils/AxiosInstance';
 import { Task, Status } from '../../Utils/Types';
 import { useMessage } from '../../hooks/MessageContext';
 import { useKeycloak } from '../../hooks/KeycloakContext';
-import { useNavigate } from 'react-router-dom';
 
 export default function NewTask() {
   const { keycloak } = useKeycloak();
@@ -91,7 +91,7 @@ export default function NewTask() {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const name = e.target.name as keyof typeof task;
-    const value = e.target.value;
+    const { value } = e.target;
 
     setTask({
       ...task,

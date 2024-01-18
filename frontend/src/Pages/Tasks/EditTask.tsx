@@ -1,19 +1,18 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import Container from '@mui/material/Container';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
-import { Status, Task } from '../../Utils/Types';
-import axiosInstance from '../../Utils/AxiosInstance';
-import { useMessage } from '../../hooks/MessageContext';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import { Stack } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useMessage } from '../../hooks/MessageContext';
+import axiosInstance from '../../Utils/AxiosInstance';
+import { Status, Task } from '../../Utils/Types';
 
 export default function EditTask() {
   const { taskId } = useParams<{ taskId: string }>();
@@ -73,7 +72,7 @@ export default function EditTask() {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const name = e.target.name as keyof typeof task;
-    const value = e.target.value;
+    const { value } = e.target;
 
     setTask({
       ...task,
