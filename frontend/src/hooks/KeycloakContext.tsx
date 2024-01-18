@@ -73,11 +73,7 @@ const useKeycloakState = (): [
   return [isLoading, keycloak, userProfile];
 };
 
-const KeycloakProvider = ({
-  children,
-}: {
-  children: ReactNode;
-}): JSX.Element => {
+function KeycloakProvider({ children }: { children: ReactNode }): JSX.Element {
   const [isLoading, keycloak, userProfile] = useKeycloakState();
 
   useEffect(() => {
@@ -93,7 +89,7 @@ const KeycloakProvider = ({
             } else {
               console.log(
                 'Token not refreshed, valid for: ',
-                keycloak.tokenParsed?.exp + ' seconds'
+                `${keycloak.tokenParsed?.exp} seconds`
               );
             }
           })
@@ -105,11 +101,12 @@ const KeycloakProvider = ({
   }, [keycloak]);
 
   return (
+    // eslint-disable-next-line react/jsx-no-constructed-context-values
     <KeycloakContext.Provider value={{ keycloak, userProfile }}>
       {!isLoading ? children : <LoadingPage />}
     </KeycloakContext.Provider>
   );
-};
+}
 
 export default KeycloakProvider;
 export { KeycloakContext };
