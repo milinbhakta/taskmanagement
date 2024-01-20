@@ -3,3 +3,4 @@
 keycloak/.DS_Store
 keycloak/data/*
 keycloak/export/*
+keycloak/realms/*.json
