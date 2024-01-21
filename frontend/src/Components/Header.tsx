@@ -55,7 +55,15 @@ export default function Header() {
           }}
         >
           <Typography variant="h5" noWrap sx={{ fontWeight: '600' }}>
-            <Link to="/" style={{ textDecoration: 'none', color: 'white' }}>
+            <Link
+              to="/"
+              style={{
+                textDecoration: 'none',
+                background: 'linear-gradient(to right, #05c9f9, #e5f61b)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+              }}
+            >
               Task Management
             </Link>
           </Typography>
