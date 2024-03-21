@@ -12,7 +12,7 @@ This application is a task management system that integrates with Keycloak to pr
 
 ## Technologies Used
 
-- **Frontend:** React, Material UI React
+- **Frontend:** React, MUI
 - **Backend:** Node.js with Express.js, Postgres for data storage
 - **Authentication and Authorization:** Keycloak
 - **API Communication:** RESTful APIs
