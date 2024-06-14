@@ -10,9 +10,7 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
-        {/* public routes */}
         <Route index element={<Dashboard />} />
-
         <Route path="tasks">
           <Route index element={<ViewTasks />} />
           <Route path="create" element={<NewTask />} />
